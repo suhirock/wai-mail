@@ -8,15 +8,36 @@
 /* =================
  * 宛先設定 ※要設定
 ================= */
-$to = '';
-$subject = '';
-$from = '';
-$fromName = '';
+$to = 'kawai@honehone-rock.com';
+$subject = 'WEBサイトからのお問い合わせ';
+$from = 'info@orbs-i.co.jp';
+$fromName = 'オーブス株式会社';
+
+/* =================
+ * 必須項目ルール
+ * バリデーションタイプ
+ * - exist : 必須項目
+ * - email : email形式のチェック
+ * - same => target : 
+================= */
+/*
+// 末尾はコンマで
+[ 'name', 'お名前', ['exist'] ],
+[ 'email', 'メールアドレス', ['exist', 'email'] ],
+[ 'email2', 'メールアドレス確認', ['exist', 'email', 'same'=>'email'] ],
+[ 'privacy', '同意が必要です。', ['exist'] ],
+*/
+$_rules = [
+    [ 'name', 'お名前', ['exist'] ],
+    [ 'email', 'メールアドレス', ['exist', 'email'] ],
+    [ 'email2', 'メールアドレス確認', ['exist', 'email', 'same'=>'email'] ],
+    [ 'privacy', '同意が必要です。', ['exist'] ],
+];
 
 /* =================
  * 返信設定（オプション）
 ================= */
-$re_subject = ''; // default: お問い合わせありがとうございます。
+$re_subject = 'オーブス株式会社へのお問い合わせありがとうございます。（自動返信）'; // default: お問い合わせありがとうございます。
 $re_to_key = ''; // default: email
 $re_from = ''; // detault: fromと同じ
 $re_fromName = ''; // default: fromNameと同じ
@@ -51,11 +72,13 @@ if(empty($page) && $_SERVER['REQUEST_METHOD'] === 'POST'){
         $_vali = new waiValidation();
 
         if(!isset($_POST['send'])){
+            
             //確認
-            $_vali->rule('name','お名前',['exist']);
-            $_vali->rule('email','メールアドレス',['exist','email']);
-            $_vali->rule('email2','メールアドレス確認',['exist','email','same'=>'email']);
-            $_vali->rule('privacy','同意が必要です。',['exist']);
+            if(!empty($_rules)){
+                foreach($_rules as $r){
+                    $_vali->rule($r[0],$r[1],$r[2]);
+                }
+            }
 
             $param['csrf'] = $_POST[$_util->csrfkey];
             $param['post'] = $_POST;
