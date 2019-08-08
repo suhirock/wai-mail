@@ -52,7 +52,7 @@ class waiValidation {
         $this->labels[$name] = $label;
 
         // 
-        $value = $this->target[$name];
+        $value = !empty($this->target[$name]) ? $this->target[$name] : '';
 
         // バリデーション
         foreach($valid as $k => $v){

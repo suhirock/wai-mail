@@ -75,10 +75,8 @@ class waiContactUtil {
     /*
     * render
     */
-    public function render(string $file, array $param) {
-        
+    public function render(string $file, array $param, bool $echo=true) {
         $_util = $this;
-
         ob_start();
         extract($param);
         require_once $file;
@@ -93,7 +91,11 @@ class waiContactUtil {
             $content = str_replace('</form',$hidden."</form",$content);
         }
 
-        echo $content;
+        if($echo){
+            echo $content;
+        } else {
+            return $content;
+        }
 	}
 
     /**

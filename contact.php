@@ -6,7 +6,8 @@
  */
 
 // 直接アクセス禁止
-if (array_shift(get_included_files()) === __FILE__) {
+$__if = get_included_files();
+if (array_shift($__if) === __FILE__) {
     die;
 }
 
@@ -56,9 +57,9 @@ if(empty($page) && $_SERVER['REQUEST_METHOD'] === 'POST'){
         } else { //送信
             
             require_once __DIR__.'/class/wai-send.class.php';
-            $send = new waiSend();
-            $send->go();
-            
+            $_send = new waiSend();
+            $body = $_util->render(__DIR__.'/tpl/mail-to.php',$param,false);
+            // $_send->go();
         }
     
     } else {
