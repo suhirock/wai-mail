@@ -2,7 +2,7 @@
 /**
  * wai contact util
  * 
- * ver .1
+ * ver .1.2
  */
 
 // 厳格型チェック
@@ -27,7 +27,7 @@ class waiContactUtil {
 		$clength = mb_strlen($chars);
 	    $str = '';
 	    for ($i = 0; $i < $length; ++$i) {
-	        $str .= $chars[mt_rand(0, $clength)];
+	        $str .= $chars[mt_rand(0, $clength-1)];
 	    }
 	    return $str;
 	}

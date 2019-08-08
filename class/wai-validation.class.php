@@ -2,7 +2,7 @@
 /**
  * wai varidation
  * 
- * ver .1
+ * ver .1.2
  */
 
 // 厳格型チェック

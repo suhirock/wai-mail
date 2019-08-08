@@ -1,8 +1,8 @@
 <?php
 /**
- * 読み込み
+ * complete
  */
 if(empty($_SERVER['HTTP_REFERER'])){
     header('Location:./');
 }
-require_once __DIR__.'/contact.php';
+require_once __DIR__.'/tpl/contact-complete.php';
