@@ -8,10 +8,10 @@
 /* =================
  * 宛先設定 ※要設定
 ================= */
-$to = 'kawai@honehone-rock.com';
-$subject = 'WEBサイトからのお問い合わせ';
-$from = 'info@orbs-i.co.jp';
-$fromName = 'オーブス株式会社';
+$to = '';
+$subject = '';
+$from = '';
+$fromName = '';
 
 /* =================
  * 必須項目ルール
@@ -37,7 +37,7 @@ $_rules = [
 /* =================
  * 返信設定（オプション）
 ================= */
-$re_subject = 'オーブス株式会社へのお問い合わせありがとうございます。（自動返信）'; // default: お問い合わせありがとうございます。
+$re_subject = ''; // default: お問い合わせありがとうございます。
 $re_to_key = ''; // default: email
 $re_from = ''; // detault: fromと同じ
 $re_fromName = ''; // default: fromNameと同じ
