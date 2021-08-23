@@ -3,7 +3,7 @@
     "description": "Mail library for static site.",
     "autoload": {
         "classmap": [
-            "class/"
+            "src/class/"
         ]
     },
     "scripts":{

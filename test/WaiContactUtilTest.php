@@ -5,7 +5,7 @@
  * @author: suhirock
  */
 declare(strict_types=1);
-require_once __DIR__.'/../class/WaiContactUtil.php';
+require_once __DIR__.'/../src/class/WaiContactUtil.php';
 use PHPUnit\Framework\TestCase;
 
 class WaiContactUtilTest extends TestCase {
@@ -100,4 +100,7 @@ class WaiContactUtilTest extends TestCase {
         $code = $util->error_value($value);
         $this->assertSame('<div class="error">Error</div>',$code);
 	}
+
+    // render : タイトルの出力
+    // render : hiddenの出力
 }
