@@ -1,48 +1,9 @@
 <?php
 /**
- * wai contact
+ * contact
  * 
- * var .1.2
+ * var .1.3
  */
-
-/* =================
- * 宛先設定 ※要設定
-================= */
-$to = '';
-$subject = '';
-$from = '';
-$fromName = '';
-
-/* =================
- * 必須項目ルール
- * バリデーションタイプ
- * - exist : 必須項目
- * - email : email形式のチェック
- * - same => target : 
-================= */
-/*
-// 末尾はコンマで
-[ 'name', 'お名前', ['exist'] ],
-[ 'email', 'メールアドレス', ['exist', 'email'] ],
-[ 'email2', 'メールアドレス確認', ['exist', 'email', 'same'=>'email'] ],
-[ 'privacy', '同意が必要です。', ['exist'] ],
-*/
-$_rules = [
-    [ 'name', 'お名前', ['exist'] ],
-    [ 'email', 'メールアドレス', ['exist', 'email'] ],
-    [ 'email2', 'メールアドレス確認', ['exist', 'email', 'same'=>'email'] ],
-    [ 'privacy', '同意が必要です。', ['exist'] ],
-];
-
-/* =================
- * 返信設定（オプション）
-================= */
-$re_subject = ''; // default: お問い合わせありがとうございます。
-$re_to_key = ''; // default: email
-$re_from = ''; // detault: fromと同じ
-$re_fromName = ''; // default: fromNameと同じ
-
-/* ================================================== */
 
 // 直接アクセス禁止
 $__if = get_included_files();
@@ -50,16 +11,18 @@ if (array_shift($__if) === __FILE__) {
     die;
 }
 
+// セッション開始
 session_start();
 
-require_once __DIR__.'/class/wai-contact-util.class.php';
-$_util = new waiContactUtil();
+require_once __DIR__.'/class/WaiContactUtil.php';
+$_util = new WaiContactUtil();
 $param = [];
 $param['csrfkey'] = $_util->csrfkey;
 
 // 初回
 if($_SERVER['REQUEST_METHOD'] === 'GET'){
     $param['csrf'] = $_util->csrf();
+    $param['title'] = 'お問い合わせフォーム';
     $page = __DIR__.'/tpl/contact-form.php';
 }
 

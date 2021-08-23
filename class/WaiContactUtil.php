@@ -1,8 +1,8 @@
 <?php
 /**
- * wai contact util
+ * WaiContactUtil
  * 
- * ver .1.2
+ * ver .1.3
  */
 
 // 厳格型チェック
@@ -11,7 +11,7 @@ declare(strict_types=1);
 /**
  * クラス定義
  */
-class waiContactUtil {
+class WaiContactUtil {
 
     public $csrfkey = '_CSRF_';
 
@@ -75,11 +75,16 @@ class waiContactUtil {
     /*
     * render
     */
-    public function render(string $file, array $param, bool $echo=true) {
-        $_util = $this;
+    public function render(
+        string $file, 
+        array $param, 
+        bool $echo=true
+        ) {
         ob_start();
         extract($param);
+        require_once __DIR__.'/../tpl/common-header.php';
         require_once $file;
+        require_once __DIR__.'/../tpl/common-footer.php';
         $content = ob_get_contents();
         ob_end_clean();
         
