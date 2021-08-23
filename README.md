@@ -1,3 +1,5 @@
+[![Test](https://github.com/suhirock/wai-mail/actions/workflows/test.yml/badge.svg)](https://github.com/suhirock/wai-mail/actions/workflows/test.yml)
+
 # wai-mail
 phpのメールアイテム
 
