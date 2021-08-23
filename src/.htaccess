@@ -3,7 +3,6 @@ Options +SymLinksIfOwnerMatch
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /wai-mail/src
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

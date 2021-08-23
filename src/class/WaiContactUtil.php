@@ -14,9 +14,13 @@ declare(strict_types=1);
 class WaiContactUtil {
 
     public $csrfkey = '_CSRF_';
+    private $headerFile = '';
+    private $footerFile = '';
 
     // コンストラクタ
     public function __construct(){
+        $this->headerFile = __DIR__.'/../tpl/common-header.php';
+        $this->footerFile = __DIR__.'/../tpl/common-footer.php';
     }
 
     /*
@@ -71,20 +75,36 @@ class WaiContactUtil {
         return !empty($item) ? nl2br(htmlspecialchars($item)) : $empty;
 	}
 
+    /*
+    * set header file
+    */
+    public function set_header($file) {
+        $this->$headerFile = $file;
+        return $this;
+    }
+
+    /*
+    * set footer file
+    */
+    public function set_footer($file) {
+        $this->$footerFile = $file;
+        return $this;
+    }
 
     /*
     * render
     */
     public function render(
-        string $file, 
+        string $file,
         array $param, 
         bool $echo=true
         ) {
+        $_util = $this; // use in form template
         ob_start();
         extract($param);
-        require_once __DIR__.'/../tpl/common-header.php';
+        require_once $this->headerFile;
         require_once $file;
-        require_once __DIR__.'/../tpl/common-footer.php';
+        require_once $this->footerFile;
         $content = ob_get_contents();
         ob_end_clean();
         
@@ -103,12 +123,4 @@ class WaiContactUtil {
         }
 	}
 
-    /**
-     * development
-     */
-    private function dump($item): void {
-        echo '<pre>';
-        var_dump( $item );
-        echo '</pre>';
-    }
 }
