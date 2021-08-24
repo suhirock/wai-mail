@@ -101,6 +101,17 @@ class WaiContactUtilTest extends TestCase {
         $this->assertSame('<div class="error">Error</div>',$code);
 	}
 
+    /**
+     * @test
+     */
+    public function set_empty__confirm_value() {
+        $util = new WaiContactUtil();
+        $value = '';
+        $empty = '-';
+        $output = $util->confirm_value($value,$empty);
+        $this->assertSame($empty,$output);
+	}
+
     // render : タイトルの出力
     // render : hiddenの出力
 }

@@ -2,7 +2,7 @@
 /**
  * wai varidation
  * 
- * ver .1.2
+ * ver .1.3
  */
 
 // 厳格型チェック
@@ -11,7 +11,7 @@ declare(strict_types=1);
 /**
  * クラス定義
  */
-class waiValidation {
+class WaiValidation {
 
     private $labels = array();
     private $errors = array();
@@ -41,13 +41,6 @@ class waiValidation {
      */
     public function rule(string $name, $label, array $valid=array()) {
         
-        // キーの存在チェック
-        /*
-        if(! in_array($name,$this->target_keys)){
-            return false;
-        }
-        */
-
         // ラベル
         $this->labels[$name] = $label;
 
@@ -102,6 +95,7 @@ class waiValidation {
         if(empty($item)){
             return $this->err_message[__FUNCTION__];
         }
+        return '';
     }
 
     private function email(string $item) {
@@ -109,20 +103,14 @@ class waiValidation {
         if(! preg_match($patten, $item, $match)){
             return $this->err_message[__FUNCTION__];
         }
+        return '';
     }
 
     private function same(string $item, string $target) {
         if($item != $target){
             return $this->err_message[__FUNCTION__];
         }
+        return '';
     }
 
-    /**
-     * development
-     */
-    private function dump($item): void {
-        echo '<pre>';
-        var_dump( $item );
-        echo '</pre>';
-    }
 }

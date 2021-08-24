@@ -11,6 +11,7 @@ declare(strict_types=1);
 /**
  * クラス定義
  */
+
 class WaiContactUtil {
 
     public $csrfkey = '_CSRF_';
@@ -22,6 +23,20 @@ class WaiContactUtil {
         $this->headerFile = __DIR__.'/../tpl/common-header.php';
         $this->footerFile = __DIR__.'/../tpl/common-footer.php';
     }
+
+    /**
+     * ダイレクトなアクセスかをチェック
+     * 
+     * @param string $basename
+     * @return null
+     */
+    public function check_redirect_direct_confirm(string $basename=null): void {
+        $access_name = basename($_SERVER['REQUEST_URI']);
+        if($basename != $access_name){
+            header('Location: ./');
+            exit;
+        }
+	}
 
     /*
     * random
@@ -79,7 +94,7 @@ class WaiContactUtil {
     * set header file
     */
     public function set_header($file) {
-        $this->$headerFile = $file;
+        $this->$file = $file;
         return $this;
     }
 
@@ -87,7 +102,7 @@ class WaiContactUtil {
     * set footer file
     */
     public function set_footer($file) {
-        $this->$footerFile = $file;
+        $this->$file = $file;
         return $this;
     }
 

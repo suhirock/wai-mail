@@ -14,7 +14,7 @@ require_once __DIR__.'/../lib/PHPMailer/language/phpmailer.lang-ja.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class waiSend {
+class WaiSend {
 
     private $charset = "UTF-8";
     private $origin_set = "AUTO";
@@ -40,8 +40,13 @@ class waiSend {
      * 送信
      */
     public function go(
-        $to=null,$subject=null,$body=null,$from=null,$fromName=null,
-        $header=array('cc' => array(),'bcc' => array())
+        $to=null,
+        $subject=null,
+        $body=null,
+        $from=null,
+        $fromName=null,
+        $cc=array(),
+        $bcc=array()
     ){
         mb_language("japanese");
         mb_internal_encoding($this->charset);
