@@ -32,12 +32,17 @@ if(!empty($Config['footer'])){
 
 // 初回
 if($_SERVER['REQUEST_METHOD'] === 'GET'){
-    // フォーム以外のダイレクトなアクセスをフォームへリダイレクト
-    $_util->check_redirect_direct_confirm($Config['basename']);
-    
-    $param['csrf'] = $_util->csrf();
-    $param['title'] = 'お問い合わせフォーム';
-    $page = __DIR__.'/tpl/contact-form.php';
+    if(basename(@$_SERVER['HTTP_REFERER']) === 'confirm' && $_util->is_complete($Config['slugs'])){
+        $param['title'] = 'お問い合わせ 完了画面';
+        $page = __DIR__.'/tpl/contact-complete.php';
+    } else {
+        // フォーム以外のダイレクトなアクセスをフォームへリダイレクト
+        $_util->check_redirect_direct_confirm($Config['basename']);
+        
+        $param['csrf'] = $_util->csrf();
+        $param['title'] = 'お問い合わせフォーム';
+        $page = __DIR__.'/tpl/contact-form.php';
+    }
 }
 
 // バリデーション
@@ -65,15 +70,17 @@ if(empty($page) && $_SERVER['REQUEST_METHOD'] === 'POST'){
                 $page = __DIR__.'/tpl/contact-form.php';
             } else {
                 if(!empty($_POST['back'])){
+                    $param['title'] = 'お問い合わせフォーム';
                     $page = __DIR__.'/tpl/contact-form.php';
                 } else {
                     $param['hidden'] = $_POST;
+                    $param['title'] = 'お問い合わせ 確認画面';
                     $page = __DIR__.'/tpl/contact-confirm.php';
                 }
             }
 
         } else {
-            
+
             //送信
             require_once __DIR__.'/class/WaiSend.php';
             $_send = new WaiSend();
@@ -122,8 +129,9 @@ if(empty($page) && $_SERVER['REQUEST_METHOD'] === 'POST'){
                 // データの削除
                 $param = array();
                 session_destroy();
-                
-                header('Location:./complete.php');
+
+                $param['title'] = 'お問い合わせ 完了画面';
+                header('Location:./complete');
                 exit;
             }
 

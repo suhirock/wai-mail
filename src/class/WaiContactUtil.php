@@ -38,6 +38,20 @@ class WaiContactUtil {
         }
 	}
 
+    /**
+     * 完了画面かどうかをチェック
+     * 
+     * @param array $slugs
+     * @return bool
+     */
+    public function is_complete(array $slugs=array()): bool {
+        $access_name = basename($_SERVER['REQUEST_URI']);
+        if($slugs['complete'] === $access_name){
+            return true;
+        }
+        return false;
+	}
+
     /*
     * random
     */
