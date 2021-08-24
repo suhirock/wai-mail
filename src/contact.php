@@ -3,6 +3,8 @@
  * contact
  * 
  * var .1.3
+ * 
+ * @todo meta_set to method in Util
  */
 
 
@@ -20,27 +22,22 @@ $_util = new WaiContactUtil();
 $param = [];
 $param['csrfkey'] = $_util->csrfkey;
 
-// ヘッダーの設定
-if(!empty($Config['header'])){
-    $_util->set_header($Config['header']);
-}
-
-// フッターの設定
-if(!empty($Config['footer'])){
-    $_util->set_footer($Config['footer']);
-}
 
 // 初回
 if($_SERVER['REQUEST_METHOD'] === 'GET'){
     if(basename(@$_SERVER['HTTP_REFERER']) === 'confirm' && $_util->is_complete($Config['slugs'])){
-        $param['title'] = 'お問い合わせ 完了画面';
+        $param['title'] = $Config['titles']['complete'];
+        $param['description'] = $Config['descs']['complete'];
+        $param['keyword'] = $Config['keywords']['complete'];
         $page = __DIR__.'/tpl/contact-complete.php';
     } else {
         // フォーム以外のダイレクトなアクセスをフォームへリダイレクト
         $_util->check_redirect_direct_confirm($Config['basename']);
         
         $param['csrf'] = $_util->csrf();
-        $param['title'] = 'お問い合わせフォーム';
+        $param['title'] = $Config['titles']['form'];
+        $param['description'] = $Config['descs']['form'];
+        $param['keyword'] = $Config['keywords']['form'];
         $page = __DIR__.'/tpl/contact-form.php';
     }
 }
@@ -54,7 +51,7 @@ if(empty($page) && $_SERVER['REQUEST_METHOD'] === 'POST'){
         $_vali = new waiValidation();
 
         if(!isset($_POST['send'])){
-            
+
             //確認
             if(!empty($Config['validation'])){
                 foreach($Config['validation'] as $r){
@@ -65,16 +62,24 @@ if(empty($page) && $_SERVER['REQUEST_METHOD'] === 'POST'){
             $param['csrf'] = $_POST[$_util->csrfkey];
             $param['post'] = $_POST;
             
+
             if($_vali->isError()){
                 $param['errors'] = $_vali->errors();
+                $param['title'] = $Config['titles']['form'];
+                $param['description'] = $Config['descs']['form'];
+                $param['keyword'] = $Config['keywords']['form'];
                 $page = __DIR__.'/tpl/contact-form.php';
             } else {
                 if(!empty($_POST['back'])){
-                    $param['title'] = 'お問い合わせフォーム';
+                    $param['title'] = $Config['titles']['form'];
+                    $param['description'] = $Config['descs']['form'];
+                    $param['keyword'] = $Config['keywords']['form'];
                     $page = __DIR__.'/tpl/contact-form.php';
                 } else {
                     $param['hidden'] = $_POST;
-                    $param['title'] = 'お問い合わせ 確認画面';
+                    $param['title'] = $Config['titles']['confirm'];
+                    $param['description'] = $Config['descs']['confirm'];
+                    $param['keyword'] = $Config['keywords']['confirm'];
                     $page = __DIR__.'/tpl/contact-confirm.php';
                 }
             }
@@ -129,15 +134,16 @@ if(empty($page) && $_SERVER['REQUEST_METHOD'] === 'POST'){
                 // データの削除
                 $param = array();
                 session_destroy();
-
-                $param['title'] = 'お問い合わせ 完了画面';
-                header('Location:./complete');
+                header('Location:./'.$Config['slugs']['complete']);
                 exit;
             }
 
         }
     
     } else {
+        $param['title'] = $Config['titles']['error'];
+        $param['description'] = $Config['descs']['error'];
+        $param['keyword'] = $Config['keywords']['error'];
         $param['errors']['csrf'] = 'ページ移動で不正がありました。';
         $page = __DIR__.'/tpl/contact-error.php';
     }

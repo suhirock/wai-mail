@@ -15,13 +15,9 @@ declare(strict_types=1);
 class WaiContactUtil {
 
     public $csrfkey = '_CSRF_';
-    private $headerFile = '';
-    private $footerFile = '';
 
     // コンストラクタ
     public function __construct(){
-        $this->headerFile = __DIR__.'/../tpl/common-header.php';
-        $this->footerFile = __DIR__.'/../tpl/common-footer.php';
     }
 
     /**
@@ -31,7 +27,8 @@ class WaiContactUtil {
      * @return null
      */
     public function check_redirect_direct_confirm(string $basename=null): void {
-        $access_name = basename($_SERVER['REQUEST_URI']);
+        $spliturl = explode('?',$_SERVER['REQUEST_URI']);
+        $access_name = basename($spliturl[0]);
         if($basename != $access_name){
             header('Location: ./');
             exit;
@@ -94,8 +91,14 @@ class WaiContactUtil {
     public function select_value($item) {
         // @todo
 	}
-    public function check_value($item) {
-        // @todo
+    public function check_same_value($value,$item=null,$checked=false) {
+        if(!empty($item) && $value === $item){
+            return ' checked="checked"';
+        }
+        if(empty($item) && $checked){
+            return ' checked="checked"';
+        }
+        return '';
 	}
     public function error_value($item) {
         return !empty($item) ? '<div class="error">'.$item.'</div>' : '';
@@ -103,22 +106,6 @@ class WaiContactUtil {
     public function confirm_value($item,$empty='') {
         return !empty($item) ? nl2br(htmlspecialchars($item)) : $empty;
 	}
-
-    /*
-    * set header file
-    */
-    public function set_header($file) {
-        $this->$file = $file;
-        return $this;
-    }
-
-    /*
-    * set footer file
-    */
-    public function set_footer($file) {
-        $this->$file = $file;
-        return $this;
-    }
 
     /*
     * render
@@ -131,9 +118,7 @@ class WaiContactUtil {
         $_util = $this; // use in form template
         ob_start();
         extract($param);
-        require_once $this->headerFile;
         require_once $file;
-        require_once $this->footerFile;
         $content = ob_get_contents();
         ob_end_clean();
         

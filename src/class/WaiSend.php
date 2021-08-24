@@ -51,6 +51,16 @@ class WaiSend {
         mb_language("japanese");
         mb_internal_encoding($this->charset);
 
+        // Server settings
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        // $mail->isSMTP();                                            //Send using SMTP
+        // $mail->Host       = 'smtp.example.com';                     //Set the SMTP server to send through
+        // $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        // $mail->Username   = 'user@example.com';                     //SMTP username
+        // $mail->Password   = 'secret';                               //SMTP password
+        // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        // $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
         $mailer = new PHPMailer();
         $mailer->CharSet = $this->charset;
         $message = $body;
@@ -58,7 +68,17 @@ class WaiSend {
         $mailer->FromName = mb_convert_encoding($fromName,$this->charset,$this->origin_set);
         $mailer->Subject  = mb_convert_encoding($subject,$this->charset,$this->origin_set);
         $mailer->Body = mb_convert_encoding($body,$this->charset,$this->origin_set);
-        $mailer->AddAddress($to);
+        $mailer->addAddress($to);
+        if(is_array($cc) && count($cc) > 0){
+            foreach($cc as $v){
+                $mailer->addCC($v);
+            }
+        }
+        if(is_array($bcc) && count($bcc) > 0){
+            foreach($bcc as $v){
+                $mailer->addBCC($v);
+            }
+        }
         
         if(! $mailer->Send()){
             echo '送信失敗しました。';

@@ -18,7 +18,8 @@ class WaiValidation {
     private $err_message = array(
         'exist' => '{label}必須入力項目です。',
         'email' => '{label}メールアドレスの形式ではありません。',
-        'same' => '{target}一致していません。'
+        'same' => '{target}一致していません。',
+        'exist_all' => '{target}すべて必須入力項目です。',
     );
     /*
     array(
@@ -52,6 +53,16 @@ class WaiValidation {
             if($k === 'same'){
                 $l = !empty($this->labels[$v]) ? $this->labels[$v].'と' : '';
                 $e = str_replace('{target}',$l,$this->$k($value,$this->target[$v]));
+            } elseif($k === 'exist_all'){
+                $e = '';
+                foreach($v as $v2){
+                    $err = $this->exist($this->target[$v2]);
+                    if(!empty($err)){
+                        $l = !empty($this->labels[$name]) ?$this->labels[$name].'は' : '';
+                        $e = str_replace('{label}',$l,$err);
+                        break;
+                    }
+                }
             } else {
                 $l = !empty($this->labels[$name]) ? $this->labels[$name].'は' : '';
                 $e = str_replace('{label}',$l,$this->$v($value));

@@ -1,3 +1,10 @@
+
+<?php
+/**
+ * contact form
+ */
+require_once __DIR__.'/common-header.php';
+?>
 <h1>お問い合わせフォーム</h1>
 <form action="./confirm" method="post">
     <input type="hidden" name="<?php echo $csrfkey; ?>" value="<?php echo $csrf; ?>">
@@ -28,3 +35,5 @@
     </div>
     <div><input type="submit" value="確認"></div>
 </form>
+<?php
+require_once __DIR__.'/common-footer.php';

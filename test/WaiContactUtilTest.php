@@ -112,6 +112,17 @@ class WaiContactUtilTest extends TestCase {
         $this->assertSame($empty,$output);
 	}
 
+    /**
+     * @test
+     */
+    public function not_empty__check_same_value() {
+        $util = new WaiContactUtil();
+        $value = '1';
+        $empty = '1';
+        $output = $util->check_same_value($value,$empty);
+        $this->assertSame(' checked="checked"',$output);
+	}
+
     // render : タイトルの出力
     // render : hiddenの出力
 }

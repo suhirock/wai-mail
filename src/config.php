@@ -4,6 +4,13 @@
  * 
  * .1.3
  */
+
+// 直接アクセス禁止
+$__if = get_included_files();
+if (array_shift($__if) === __FILE__) {
+    die;
+}
+
 $Config = [
     /**
      * basename
@@ -20,16 +27,44 @@ $Config = [
         'confirm' => 'confirm',
         'complete' => 'complete',
     ],
-   
-    /**
-     * Header file path
-     */
-    'header' => __DIR__.'/tpl/common-header.php',
 
     /**
-     * Footer file path
+     * Page Title
+     * 
+     * form
+     * confirm
+     * complete
      */
-    'footer' => __DIR__.'/tpl/common-footer.php',
+    'titles' => [
+        'form' => 'お問い合わせフォーム',
+        'confirm' => 'お問い合わせ 確認画面',
+        'complete' => 'お問い合わせ 完了画面',
+        'error' => 'お問い合わせ エラー',
+    ],
+
+    /**
+     * Page Descriptions
+     * 
+     * form / confirm / complete
+     */
+    'descs' => [
+        'form' => '',
+        'confirm' => '',
+        'complete' => '',
+        'error' => '',
+    ],
+
+    /**
+     * Page Keywords
+     * 
+     * form / confirm / complete
+     */
+    'keywords' => [
+        'form' => '',
+        'confirm' => '',
+        'complete' => '',
+        'error' => '',
+    ],
 
     /**
      * Mail template to admin
@@ -54,6 +89,8 @@ $Config = [
      * [ 'email', 'メールアドレス', ['exist', 'email'] ],
      * [ 'email2', 'メールアドレス確認', ['exist', 'email', 'same'=>'email'] ],
      * [ 'privacy', '同意が必要です。', ['exist'] ],
+     * // すべてに入力が必要な場合
+     * [ 'birthday', '生年月日', [ 'exist_all'=>['birthday_year','birthday_month','birthday_day'] ] ]
      */
     'validation' => [
         [ 'name', 'お名前', ['exist'] ],
