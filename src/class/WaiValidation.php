@@ -17,7 +17,7 @@ class WaiValidation {
     private $errors = array();
     private $err_message = array(
         'exist' => '{label}必須入力項目です。',
-        'email' => '{label}メールアドレスの形式ではありません。',
+        'email' => '{label}（xxx@yyy.com）のような形式でご入力ください。',
         'same' => '{target}一致していません。',
         'exist_all' => '{target}すべて必須入力項目です。',
     );

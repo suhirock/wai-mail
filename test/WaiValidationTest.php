@@ -16,7 +16,7 @@ class WaiValidationTest extends TestCase {
     public function exist__validation() {
         $vali = new WaiValidation();
 
-        // sample
+        // sample post value
         $vali->set_target(
             [
                 'name' => ''
@@ -26,11 +26,15 @@ class WaiValidationTest extends TestCase {
         // rule
         $rule = [ 'name', 'お名前', ['exist']];
 
-        // validation
+        // rule set & validation
         $vali->rule($rule[0],$rule[1],$rule[2]);
 
-        // error check
+        // error flg check
         $this->assertNotFalse($vali->isError());
+
+        // error text check
+        $errors = $vali->errors();
+        $this->assertSame('お名前は必須入力項目です。',$errors['name']);
     }
 
     /**
@@ -54,5 +58,42 @@ class WaiValidationTest extends TestCase {
 
         // error check
         $this->assertNotFalse($vali->isError());
+
+        // error text check
+        $errors = $vali->errors();
+        $this->assertSame('メールアドレスは（xxx@yyy.com）のような形式でご入力ください。',$errors['email']);
+    }
+
+    /**
+     * @test
+     */
+    public function mail_same__validation() {
+        $vali = new WaiValidation();
+
+        // sample
+        $vali->set_target(
+            [
+                'email1' => 'example1@hoge.com',
+                'email2' => 'example2@hoge.com'
+            ]
+        );
+
+        // rule
+        $rules = [
+            ['email1', 'メールアドレス', ['exist', 'email'] ],
+            ['email2', 'メールアドレス', ['exist', 'email', 'same'=>'email1'] ],
+        ];
+
+        // validation
+        foreach($rules as $rule){
+            $vali->rule($rule[0],$rule[1],$rule[2]);
+        }
+
+        // error check
+        $this->assertNotFalse($vali->isError());
+
+        // error text check
+        $errors = $vali->errors();
+        $this->assertSame('メールアドレスと一致していません。',$errors['email2']);
     }
 }
